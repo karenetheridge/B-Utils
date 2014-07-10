@@ -1,5 +1,7 @@
 Revision history for Perl extension B::Utils.
 
+   - Support native B::OP::parent with 5.21.2 -DPERL_OP_PARENT (rurban)
+
 0.26
    - fix tests for perl 5.21.7 (change to nulled COPs) (RT#100508, Father
      Chrysostomos)
