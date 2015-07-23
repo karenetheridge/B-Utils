@@ -32,7 +32,7 @@ is_deeply(\@lines,
 
 # For testing following if/else in code.
 if (@lines) {
-  ok(1);     # FIXME: This line isn't coming out.
+  ok(1);     # We had a bug in not getting this line number once
 } else {
   ok(0);
 }

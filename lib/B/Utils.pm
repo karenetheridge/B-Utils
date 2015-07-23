@@ -4,7 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 use vars qw( @EXPORT_OK %EXPORT_TAGS
-    @bad_stashes $TRACE_FH $file $line $sub );
+    @bad_stashes $TRACE_FH $file $line $sub $trace_removed );
 
 use subs (
     qw( all_starts all_roots anon_sub recalc_sub_cache ),
@@ -594,6 +594,9 @@ more expected semantics.
 All the C<walk> functions set C<$B::Utils::file>, C<$B::Utils::line>,
 and C<$B::Utils::sub> to the appropriate values of file, line number,
 and sub name in the program being examined.
+C<$B::Utils::trace_removed> when the nextstate COPs that contained
+that line was optimized away. Such lines won't normally be
+step-able or breakpoint-able in a debugger without special work.
 
 =cut
 
@@ -618,6 +621,16 @@ sub _walkoptree_simple {
     if ( ref $op and $op->isa("B::COP") ) {
         $B::Utils::file = $op->file;
         $B::Utils::line = $op->line;
+        $trace_removed = _FALSE;
+    } elsif ( !$op->isa('B::NULL') and $op->oldname eq 'nextstate' ) {
+        # COP nextstate has been optimized away.  However by turning
+        # this back into a COP we can retrieve the file and line
+        # values.
+        my $cop = $op;
+        bless $cop, 'B::COP';
+        $file = $cop->file;
+        $line = $cop->line;
+        $trace_removed = _TRUE;
     }
 
     $callback->( $op, $data );
