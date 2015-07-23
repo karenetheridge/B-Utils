@@ -388,11 +388,7 @@ it to C<0> will limit the dump to the current op.
 
 C<attributes> is a list of attributes to include in the produced
 pattern. The attributes that can be checked against in this way
-<<<<<<< HEAD
-are
-=======
 are:
->>>>>>> 386c0d9ba00b70062fcb5ab82de55acfe54c8d03
 
   name targ type seq flags private pmflags pmpermflags.
 
