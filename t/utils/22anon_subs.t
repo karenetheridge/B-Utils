@@ -12,7 +12,7 @@ my $found = svref_2object( $sub );
 {
     # List context
     my @subs = anon_subs();
-    
+
     is( scalar grep( ${$found->START} == ${$_->{start}}
 		     && ${$found->ROOT} == ${$_->{root}},
 		     @subs ),

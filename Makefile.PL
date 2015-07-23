@@ -22,6 +22,7 @@ $pkg->add_pm( 'lib/B/Utils.pm' => '$(INST_LIB)/B/Utils.pm',
 
 $pkg->add_typemaps("typemap");
 
+mkdir 'build';
 $pkg->save_config('build/IFiles.pm');
 
 use ExtUtils::MakeMaker;
@@ -34,7 +35,7 @@ WriteMakefile1(
         'Task::Weaken' => 0,
         'Exporter'     => 0,
     },
-    BUILD_REQUIRES => {
+    TEST_REQUIRES => {
         'Test::More' => 0,
     },
     CONFIGURE_REQUIRES => {
@@ -45,8 +46,16 @@ WriteMakefile1(
     LICENSE       => 'perl',
     MIN_PERL_VERSION => 5.006,
     META_MERGE => {
-      resources => {
-        repository => 'http://github.com/jbenjore/B-Utils/tree',
+      'meta-spec' => { version => 2 },
+      repository => {
+          # original in http://github.com/jbenjore/B-Utils/
+          url => 'https://github.com/karenetheridge/B-Utils.git',
+          web => 'https://github.com/karenetheridge/B-Utils',
+          type => 'git',
+      },
+      bugtracker => {
+          mailto => 'bug-B-Utils@rt.cpan.org',
+          web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=B-Utils',
       },
       keywords => ['op tree','perl internals'],
     },

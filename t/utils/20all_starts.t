@@ -23,4 +23,4 @@ sub find_this { 1 }
         ${$starts->{'main::find_this'}},
         "Found correct start" );
 }
-        
+

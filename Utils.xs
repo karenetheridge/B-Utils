@@ -33,7 +33,7 @@ START_MY_CXT
 
 #ifdef PERL_OBJECT
 #undef PL_op_name
-#undef PL_opargs 
+#undef PL_opargs
 #undef PL_op_desc
 #define PL_op_name (get_op_names())
 #define PL_opargs (get_opargs())
@@ -140,7 +140,7 @@ BUtils_cc_opclass(pTHX_ const OP *o)
 
     case OA_PVOP_OR_SVOP:
         /*
-         * Character translations (tr///) are usually a PVOP, keeping a 
+         * Character translations (tr///) are usually a PVOP, keeping a
          * pointer to a table of shorts used to look up translations.
          * Under utf8, however, a simple table isn't practical; instead,
          * the OP is an SVOP, and the SV is a reference to a swash

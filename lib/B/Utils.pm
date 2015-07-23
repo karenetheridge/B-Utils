@@ -3,7 +3,7 @@ package B::Utils;
 use 5.006;
 use strict;
 use warnings;
-use vars qw( $VERSION @EXPORT_OK %EXPORT_TAGS
+use vars qw( @EXPORT_OK %EXPORT_TAGS
     @bad_stashes $TRACE_FH $file $line $sub $trace_removed );
 
 use subs (
@@ -27,13 +27,7 @@ B::Utils - Helper functions for op tree manipulation
 # NOTE: The pod/code version here and in README are computer checked
 # by xt/version.t. Keep them in sync.
 
-=head1 VERSION
-
-0.25
-
-=cut
-
-$VERSION = '0.25';
+our $VERSION = '0.28';
 
 
 
@@ -109,13 +103,13 @@ sub _FALSE () { !!0 }
 # =item C<$op-E<gt>other>
 #
 # Normally if you call first, last or other on anything which is not an
-# UNOP, BINOP or LOGOP respectivly it will die.  This leads to lots of
+# UNOP, BINOP or LOGOP respectively it will die.  This leads to lots of
 # code like:
 #
 #     $op->first if $op->can('first');
 #
-# B::Utils provides every op with first, last and other methods which
-# will simply return nothing if it isn't relevent.
+# B::Utils provided every op with first, last and other methods which
+# will simply return nothing if it isn't relevant. But this broke B::Concise
 #
 # =cut
 #
@@ -126,7 +120,7 @@ sub _FALSE () { !!0 }
 =item C<$op-E<gt>oldname>
 
 Returns the name of the op, even if it is currently optimized to null.
-This helps you understand the stucture of the op tree.
+This helps you understand the structure of the op tree.
 
 =cut
 
@@ -183,13 +177,35 @@ In the future, it may be possible to search for the parent before we
 have the C<next> pointers in place, but it'll take me a while to
 figure out how to do that.
 
+Warning: Since 5.21.2 B comes with its own version of B::OP::parent
+which returns either B::NULL or the real parent when ccflags contains
+-DPERL_OP_PARENT.
+In this case rather use $op->_parent.
+
 =cut
 
+BEGIN {
+  unless ($] >= 5.021002 and exists &B::OP::parent) {
+    eval q[
 sub B::OP::parent {
     my $op     = shift;
     my $parent = $op->_parent_impl( $op, "" );
 
     $parent;
+}];
+  } else {
+    eval q[
+sub B::OP::_parent {
+    my $op     = shift;
+    my $parent = $op->_parent_impl( $op, "" );
+    $parent;
+}];
+  }
+  if ($] >= 5.021002) {
+    eval q[
+sub B::NULL::kids { }
+    ];
+  }
 }
 
 sub B::NULL::_parent_impl { }
@@ -372,7 +388,11 @@ it to C<0> will limit the dump to the current op.
 
 C<attributes> is a list of attributes to include in the produced
 pattern. The attributes that can be checked against in this way
+<<<<<<< HEAD
 are
+=======
+are:
+>>>>>>> 386c0d9ba00b70062fcb5ab82de55acfe54c8d03
 
   name targ type seq flags private pmflags pmpermflags.
 
