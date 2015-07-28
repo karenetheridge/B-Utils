@@ -90,11 +90,11 @@ sub _FALSE () { !!0 }
 #
 # =pod
 #
-# =item C<$op-E<gt>first>
+# =item C<< $op->first >>
 #
-# =item C<$oo-E<gt>last>
+# =item C<< $op->last >>
 #
-# =item C<$op-E<gt>other>
+# =item C<< $op->other >>
 #
 # Normally if you call first, last or other on anything which is not an
 # UNOP, BINOP or LOGOP respectively it will die.  This leads to lots of
@@ -111,7 +111,7 @@ sub _FALSE () { !!0 }
 # sub B::OP::last  { $_[0]->can("SUPER::last")  ? $_[0]->SUPER::last()  : () }
 # sub B::OP::other { $_[0]->can("SUPER::other") ? $_[0]->SUPER::other() : () }
 
-=item C<$op-E<gt>oldname>
+=item C<< $op->oldname >>
 
 Returns the name of the op, even if it is currently optimized to null.
 This helps you understand the structure of the op tree.
@@ -133,7 +133,7 @@ sub B::OP::oldname {
 
 }
 
-=item C<$op-E<gt>kids>
+=item C<< $op->kids >>
 
 Returns an array of all this op's non-null children, in order.
 
@@ -160,7 +160,7 @@ sub B::OP::kids {
     return @kids;
 }
 
-=item C<$op-E<gt>parent>
+=item C<< $op->parent >>
 
 Returns the parent node in the op tree, if possible. Currently
 "possible" means "if the tree has already been optimized"; that is, if
@@ -230,7 +230,7 @@ sub B::OP::_parent_impl {
     );
 }
 
-=item C<$op-E<gt>ancestors>
+=item C<< $op->ancestors >>
 
 Returns all parents of this node, recursively. The list is ordered
 from younger/closer parents to older/farther parents.
@@ -247,7 +247,7 @@ sub B::OP::ancestors {
     return @nodes;
 }
 
-=item C<$op-E<gt>descendants>
+=item C<< $op->descendants >>
 
 Returns all children of this node, recursively. The list is unordered.
 
@@ -261,7 +261,7 @@ sub B::OP::descendants {
     return shuffle @nodes;
 }
 
-=item C<$op-E<gt>siblings>
+=item C<< $op->siblings >>
 
 Returns all younger siblings of this node. The list is ordered from
 younger/closer siblings to older/farther siblings.
@@ -284,9 +284,9 @@ sub B::OP::siblings {
     return @siblings;
 }
 
-=item C<$op-E<gt>previous>
+=item C<< $op->previous >>
 
-Like C< $op-E<gt>next >, but not quite.
+Like C<< $op->next >>, but not quite.
 
 =cut
 
@@ -345,7 +345,7 @@ Like C< $op-E<gt>next >, but not quite.
 ##     return _FALSE;
 ## }
 
-=item C<$op-E<gt>stringify>
+=item C<< $op->stringify >>
 
 Returns a nice stringification of an opcode.
 
@@ -357,7 +357,7 @@ sub B::OP::stringify {
     return sprintf "%s-%s=(0x%07x)", $op->name, class($op), $$op;
 }
 
-=item C<$op-E<gt>as_opgrep_pattern(%options)>
+=item C<< $op->as_opgrep_pattern(%options) >>
 
 From the op tree it is called on, C<as_opgrep_pattern()>
 generates a data structure suitable for use as a condition pattern
@@ -788,7 +788,7 @@ Here are the things that can be tested in this way:
         first other last sibling next pmreplroot pmreplstart pmnext
 
 Additionally, you can use the C<kids> keyword with an array reference
-to match the result of a call to C<$op-E<gt>kids()>. An example use is
+to match the result of a call to C<< $op->kids() >>. An example use is
 given in the documentation for C<op_or> below.
 
 For debugging, you can have many properties of an op that is currently being
@@ -826,7 +826,7 @@ If a C<capture> property is found anywhere in
 the op pattern, C<opgrep()> returns an unblessed hash reference on success
 instead of the tested op. You can tell them apart using L<Scalar::Util>'s
 C<blessed()>. That hash reference contains all captured ops plus the
-tested root up as the hash entry C<$result-E<gt>{op}>. Note that you cannot
+tested root up as the hash entry C<< $result->{op} >>. Note that you cannot
 use this feature with C<walkoptree_filtered> since that function was
 specifically documented to pass the tested op itself to the callback.
 
