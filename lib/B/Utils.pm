@@ -23,13 +23,7 @@ B::Utils - Helper functions for op tree manipulation
 
 =cut
 
-
-# NOTE: The pod/code version here and in README are computer checked
-# by xt/version.t. Keep them in sync.
-
 our $VERSION = '0.28';
-
-
 
 =head1 INSTALLATION
 
