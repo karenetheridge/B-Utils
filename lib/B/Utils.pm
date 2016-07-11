@@ -179,7 +179,7 @@ In this case rather use $op->_parent.
 =cut
 
 BEGIN {
-  unless ($] >= 5.021002 and exists &B::OP::parent) {
+  unless ("$]" >= 5.021002 and exists &B::OP::parent) {
     eval q[
 sub B::OP::parent {
     my $op     = shift;
@@ -195,7 +195,7 @@ sub B::OP::_parent {
     $parent;
 }];
   }
-  if ($] >= 5.021002) {
+  if ("$]" >= 5.021002) {
     eval q[
 sub B::NULL::kids { }
     ];
