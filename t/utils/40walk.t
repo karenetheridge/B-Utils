@@ -18,7 +18,7 @@ foreach my $op (values %{all_roots()}) {
   walkoptree_simple( $op, $callback );
 }
 my $expected = [8, 15, 17, 18, 20, 24, 27, 31,
-                # 30,    # See FIXME: below
+                # 32,    # See FIXME: below
                 36, 42
                ];
 if ("$]" < 5.045003) {
