@@ -8,7 +8,7 @@ use B::Utils ();
 
 our @ISA = 'Exporter';
 require Exporter;
-our $VERSION = '0.28';
+our $VERSION = '0.29';
 our @EXPORT = qw(parent_op return_op);
 
 
