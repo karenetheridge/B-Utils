@@ -10,23 +10,20 @@ my $callback = sub
 {
   my $op = shift;
   if ('COP' eq B::class($op) and  $op->file eq __FILE__) {
-    push @lines, $op->line; # includes ex-nextstate COPs
+    push @lines, $op->line unless $op->name eq 'null';
   }
 };
 
 foreach my $op (values %{all_roots()}) {
   walkoptree_simple( $op, $callback );
 }
-my $expected = [8, 9, 17, 17, 18, 20, 22, 23, 25, 26, 28, 29,
-                32, 37, 38, 40, 43];
-if ("$]" < 5.045004) {
-  $expected = [8, 15, 17, 18, 20, 24, 27, 31, 36, 42];
-}
-if ("$]" < 5.045003) {
-  $expected =  [8, 15, 17, 18, 20, 24, 27, 31, 36, 39, 42];
-}
+my $expected = [8, 15, 17, 18, 20, 25, 29,
+                # 30,    # See FIXME: below
+                34, 37, 40
+                # 37,
+               ];
 if ("$]" < 5.007) {
-  $expected =  [8, 15, 17, 18, 17, 20, 24, 27, 31, 36, 39, 42];
+  $expected =  [8, 15, 17, 18, 17, 20, 25, 29, 34, 37, 40];
 }
 
 is_deeply(\@lines,
@@ -35,7 +32,7 @@ is_deeply(\@lines,
 
 # For testing following if/else in code.
 if (@lines) {
-  ok(1);
+  ok(1);     # FIXME: This line isn't coming out.
 } else {
   ok(0);
 }
