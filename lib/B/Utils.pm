@@ -23,7 +23,7 @@ B::Utils - Helper functions for op tree manipulation
 
 =cut
 
-our $VERSION = '0.29';
+our $VERSION = '0.30';
 
 =head1 INSTALLATION
 
