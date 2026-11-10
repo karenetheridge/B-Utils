@@ -1,5 +1,6 @@
 Revision history for B-Utils
 
+{{$NEXT}}
    - adjust tests to handle a change in perl 5.45.5 (see perl issue
      #24827) (PR #3, Richard Leach)
 
