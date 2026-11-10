@@ -17,26 +17,29 @@ my $callback = sub
 foreach my $op (values %{all_roots()}) {                    # 17  op
   walkoptree_simple( $op, $callback );                      # 18  op
 }
-my $expected = [8, 15, 17, 17, 18, 20, 22, 23, 25, 26, 29, 34, 35, 37, 40]; # 20  op
+my $expected = [8, 15, 17, 17, 18, 20, 25, 26, 28, 29, 32, 37, 38, 40, 43]; # 20  op
 
-if ("$]" < 5.045003) {                                      # 22  op
-  $expected =  [8, 15, 17, 17, 18, 20, 22, 23, 25, 26, 29, 34, 35, 37, 40]; # 23 op
+
+
+
+if ("$]" < 5.045003) {                                      # 25  op
+  $expected =  [8, 15, 17, 17, 18, 20, 25, 26, 28, 29, 32, 37, 38, 40, 43]; # 26 op
 }
-if ("$]" < 5.007) {                                         # 25  op
-  $expected =  [8, 15, 17, 17, 18, 17, 20, 22, 23, 25, 26, 29, 34, 35, 37, 40]; # 26 op
+if ("$]" < 5.007) {                                         # 28  op
+  $expected =  [8, 15, 17, 17, 18, 17, 20, 25, 26, 28, 29, 32, 37, 38, 40, 43]; # 29 op
 }
 
-is_deeply(\@lines,                                          # 29  op
+is_deeply(\@lines,                                          # 32  op
           $expected,
           'walkoptree_simple lines of ' . __FILE__);
 
 # For testing following if/else in code.
-if (@lines) {                                               # 34  op
-  ok(1);                                                    # 35  op
+if (@lines) {                                               # 37  op
+  ok(1);                                                    # 38  op
 } else {
-  ok(0);                                                    # 37  op
+  ok(0);                                                    # 40  op
 }
 
-done_testing();                                             # 40  op
+done_testing();                                             # 43  op
 __END__
 diag join(', ', @lines), "\n";
