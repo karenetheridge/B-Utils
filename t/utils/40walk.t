@@ -17,13 +17,13 @@ my $callback = sub
 foreach my $op (values %{all_roots()}) {                    # 17  op
   walkoptree_simple( $op, $callback );                      # 18  op
 }
-my $expected = [8, 15, 17, 18, 20, 25, 29,                  # 20  op
-                # 30,    # See FIXME: below
-                34, 37, 40
-                # 37,
-               ];
+my $expected = [8, 15, 17, 18, 20, 22, 25, 29, 34, 40];     # 20  op
+
+if ("$]" < 5.045003) {                                      # 22  op
+  $expected =  [8, 15, 17, 18, 20, 22, 25, 29, 34, 37, 40];
+}
 if ("$]" < 5.007) {                                         # 25  op
-  $expected =  [8, 15, 17, 18, 17, 20, 25, 29, 34, 37, 40];
+  $expected =  [8, 15, 17, 18, 17, 20, 22, 25, 29, 34, 37, 40];
 }
 
 is_deeply(\@lines,                                          # 29  op
